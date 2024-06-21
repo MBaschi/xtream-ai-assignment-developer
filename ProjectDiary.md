@@ -39,7 +39,30 @@ The assigment dosen't specify how the data are taken but i will suppose they are
 I think it will be nice to save all models (maybe as pickle) to confront them in the future but the assigment only speaks about the history and the performance metrics so i will stick to that, avoiding to create unrequired feature ("less is more"). Since the models will differs only for the training dataset i will save the metrics, name of the used dataset, data of creation (in utc)
 
 # Challenge 2 (version 2.0.0)
-Objective: support both models and create a flexible structure for creating more models and pipelines.
-The first time i read the challenge i thought of writing a main for "smooth" creation and saving of sklearn pipeline. I'm not really an expert but i know i can create them by "appending" the different step; i read a bit online and altough it may be intresting i have to use sklearn method for processing and i don't like this. 
-The assigment state: "This assignment is designed to test your skills in engineering and software development. You **will not need to design or develop models**. Someone has already done that for you." I will consider myself almost ignorant in ML field. I will suppose that the user may need in the future really complex preprocessing step: maybe he will like the feature (x^2+y^2)*z or transform color into wavelength or do some kind of quantization. So instead of generalizing and expanding the one proposed in the assigment i will focus on a more fundematal structure.    
-I will create a BaseModel class following the Factory Method as creational design pattern. I will do the same for Pipeline node so that, as the project change and evolve me or the user can add new processing tools.
+Objective: Support both models and create a flexible structure for future model and pipeline development.
+
+Upon initially reading the challenge, I considered writing a main function for the creation and saving of sklearn pipelines. Although I'm not an expert, I understand that pipelines can be constructed by "appending" different steps. After some research, I realized that while this approach might be interesting, it requires using sklearn's processing methods, which I prefer not to use.
+
+The assignment states: "This assignment is designed to test your skills in engineering and software development. You will not need to design or develop models. Someone has already done that for you." I anticipate that users may need complex preprocessing steps in the future. Example: such as calculating (x^2+y^2)*z, transforming color into wavelength, performing some kind of quantization... (not that this are suggestion is just to give example of fancy preprocessing). Instead of generalizing and expanding the proposed solution, I will focus on a more fundamental structure.
+
+I will create a BaseModel class following the Factory Method as a creational design pattern. All models will have:
+
+- A name
+- An optional description
+- A dictionary for metrics
+- An input_preprocessing method: transforms cleaned data into input features for the model
+- A target_processing method: creates the target vector from the input
+- A fit method to train the model with new data: the data for the fit method must already be cleaned and preprocessed
+- A predict method that receives input data as a pd.DataFrame
+- A postprocessing method: output may need transformation
+- An evaluate method where metrics are calculated
+- A train_pipeline method: already implemented in the base model, it performs all necessary steps to train the model (preprocessing, splitting, training, evaluating). Users are free to override it if desired
+- An execution_pipeline: receives the input feature, executes the input preprocessing, and performs output postprocessing
+
+The cleaning method will be external to the model since it is common across all models (e.g., removing negative dimensions from corrupted data). This may not hold if, for example, the model needs to cluster anomalies from the data, but that would constitute a different type of problem requiring a separate application.
+
+I did not specify the input type in the BaseModel class because the input type may vary depending on the model (list, pd.DataFrame, numpy array, torch.tensor, dask DataFrame, etc.).
+
+This structure allows users to create new models following a logically ordered structure. Their responsibility is to create a new file in the AI_models folder and write the code accordingly.
+
+Since the BaseModel assumes the problem is supervised, I renamed it to BaseSupervisedModel. This allows for the expansion of the catalog of base models.
