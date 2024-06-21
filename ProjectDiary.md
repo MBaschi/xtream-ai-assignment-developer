@@ -23,7 +23,7 @@ Unit tests won't provide full code coverage but will be focused only on key crit
 Of course, at the top root directory, there will be the requirements file.
 I will use Pylint and Black with the default settings. I can't promise that the code will be perfectly linted, but I'll try my best.
 
-# Challenge 1 (from 0.0.0 to 1.0.0)
+# Challenge 1 (version 1.0.0)
 Objective: Develop an automated pipeline.
 The user (Marta) has studied the problem, but now if she wants to retrain the model or change something in the solution, she has to move back and forth. The objective of the first step is to provide her with cleaner code, easier to handle and evolve.
 The first code is to create a model with new data and have to be "as sharp as the diamonds it processes". So no extra feature (like user input). The smaller the better
@@ -39,3 +39,5 @@ Before starting coding, I need an initial folder structure. Now, I will start wi
 
 The assigment dosen't specify how the data are taken but i will suppose they are inserted as csv in the data folder. 
 I think it will be nice to save all models (maybe as pickle) to confront them in the future but the assigment  only speaks about the history and the performance metrics so i will stick to that. Since the models will differs only for the training dataset i will save the metrics, name of the used dataset, data of creation (in utc)
+
+# Challenge 2 (version 2.0.0)
