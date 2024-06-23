@@ -13,8 +13,7 @@ from AI_models.get_model import get_model
 ROOT_PATH = Path(__file__).resolve().parents[0]
 DATA_PATH = ROOT_PATH / "data" / "diamonds.csv"
 SAVE_PATH = ROOT_PATH / "model_history.json"
-MODEL_NAME = "linear_regression"
-
+MODEL_NAME = "xgboost"
 
 
 def main():
@@ -30,7 +29,10 @@ def main():
 
     # Get the model
     model = get_model(MODEL_NAME)
-    model.train_pipeline(x, y,print_final_metrics=True)
+    model.train_pipeline(x, y, print_final_metrics=True)
+    model.save_model_anagraphic(
+        path=SAVE_PATH, training_dataset_name=Path(DATA_PATH).stem
+    )
 
 
 if __name__ == "__main__":

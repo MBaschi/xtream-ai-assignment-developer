@@ -43,7 +43,7 @@ Objective: Support both models and create a flexible structure for future model 
 
 Upon initially reading the challenge, I considered writing a main function for the creation and saving of sklearn pipelines. Although I'm not an expert, I understand that pipelines can be constructed by "appending" different steps. After some research, I realized that while this approach might be interesting, it requires using sklearn's processing methods, which I prefer not to use.
 
-The assignment states: "This assignment is designed to test your skills in engineering and software development. You will not need to design or develop models. Someone has already done that for you." I anticipate that users may need complex preprocessing steps in the future. Example: such as calculating (x^2+y^2)*z, transforming color into wavelength, performing some kind of quantization... (not that this are suggestion is just to give example of fancy preprocessing). Instead of generalizing and expanding the proposed solution, I will focus on a more fundamental structure.
+The assignment states: "This assignment is designed to test your skills in engineering and software development. You will not need to design or develop models. Someone has already done that for you." I anticipate that users may need complex preprocessing steps in the future. Example: calculating (x^2+y^2)*z, transforming color into wavelength, performing some kind of quantization... (not that this are suggestion is just to give example of fancy preprocessing). Instead of generalizing and expanding the proposed solution, I will focus on a more fundamental structure.
 
 I will create a BaseModel class following the Factory Method as a creational design pattern. All models will have:
 
@@ -59,12 +59,16 @@ I will create a BaseModel class following the Factory Method as a creational des
 - A train_pipeline method: already implemented in the base model, it performs all necessary steps to train the model (preprocessing, splitting, training, evaluating). Users are free to override it if desired
 - An execution_pipeline: receives the input feature, executes the input preprocessing, and performs output postprocessing
 
-The cleaning method will be external to the model since it is common across all models (e.g., removing negative dimensions from corrupted data). This may not hold if, for example, the model needs to cluster anomalies from the data, but that would constitute a different type of problem requiring a separate application.
+The cleaning method will be external to the model since it is common across all models (e.g., removing negative dimensions from corrupted data).  
+
+This structure allows users to create new models following a logically ordered structure. Their responsibility is to create a new file in the AI_models folder and write the code accordingly.  
 
 I did not specify the input type in the BaseModel class because the input type may vary depending on the model (list, pd.DataFrame, numpy array, torch.tensor, dask DataFrame, etc.).
 
-This structure allows users to create new models following a logically ordered structure. Their responsibility is to create a new file in the AI_models folder and write the code accordingly.
+
 
 Since the BaseModel assumes the problem is supervised, I renamed it to BaseSupervisedModel. This allows for the expansion of the catalog of base models.
 
 Since inside the model there processing specific of the dataset (the name of the columns are inside the class) the model can only be used for the diamon dataset as given by the problem; so the models name end with _diamond.
+
+I'm not saving the model but only the anagraphic: training dataset, model used, creation time, version (that actually is the toal number of model created also with different algoeithms). In version 3.0.0 i'm oblied to save model (i can't train a new model every time the application is started)

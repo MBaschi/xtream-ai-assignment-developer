@@ -8,6 +8,7 @@ from zoneinfo import ZoneInfo
 from sklearn.model_selection import train_test_split
 import numpy as np
 
+
 class BaseSupervisedModel(ABC):
 
     @property
@@ -119,7 +120,7 @@ class BaseSupervisedModel(ABC):
         Parameters:
             x: The input data as a pandas DataFrame.
             y: The target data as a pandas DataFrame.
-            print_final_metrics: print the final metrics of the process 
+            print_final_metrics: print the final metrics of the process
 
         Returns:
             The evaluation metrics as a numpy array.
@@ -152,7 +153,7 @@ class BaseSupervisedModel(ABC):
         y_pred = self.postprocessing(y_pred)
         return y_pred
 
-    def save_model_anagraphic(self, path, training_dataset_name: str):
+    def save_model_anagraphic(self, path: str, training_dataset_name: str) -> None:
         try:
             with open(path, "r") as f:
                 history = json.load(f)
@@ -162,6 +163,7 @@ class BaseSupervisedModel(ABC):
         # Append the new model's details to the history list
         history.append(
             {
+                "Model": self.model_name,
                 "Version": len(history) + 1,
                 "Dataset": training_dataset_name,
                 "Metrics": self.metrics,
@@ -174,4 +176,4 @@ class BaseSupervisedModel(ABC):
         # Write the updated history back to the file
         with open(path, "w") as f:
             f.write(json.dumps(history, indent=4))
-            pass
+            print("Model saved ")

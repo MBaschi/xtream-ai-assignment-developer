@@ -1,8 +1,6 @@
 """In this file are implemented the loading and processing of the diamond dataset"""
 
 import pandas as pd
-import numpy as np
-from sklearn.model_selection import train_test_split
 
 
 def load_df(path: str) -> pd.DataFrame:
@@ -17,6 +15,7 @@ def load_df(path: str) -> pd.DataFrame:
     """
     df = pd.read_csv(path)
     return df
+
 
 def data_cleaning(df: pd.DataFrame) -> pd.DataFrame:
     """

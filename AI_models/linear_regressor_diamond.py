@@ -9,7 +9,7 @@ class LinearRegressorModelDiamond(BaseSupervisedModel):
     """Linear Regressor model for the diamond dataset."""
 
     model = LinearRegression()
-    model_name = "LinearRegresso_diamon_v0"
+    model_name = "LinearRegresso_diamond_v0"
     model_description = "Predicting the value of diamons base on they carapteristics with linear regression"
     metrics = {"r2": [], "mae": []}
 
