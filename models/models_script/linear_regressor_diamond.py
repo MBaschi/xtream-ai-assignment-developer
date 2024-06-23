@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 from sklearn.linear_model import LinearRegression
-from AI_models.base_model import BaseSupervisedModel
+from models.base_model import BaseSupervisedModel
 from sklearn.metrics import r2_score, mean_absolute_error
 
 

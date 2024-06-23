@@ -1,4 +1,4 @@
-import AI_models as models
+import models as models
 
 
 def get_model(model_name):

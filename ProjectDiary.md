@@ -72,3 +72,44 @@ Since the BaseModel assumes the problem is supervised, I renamed it to BaseSuper
 Since inside the model there processing specific of the dataset (the name of the columns are inside the class) the model can only be used for the diamon dataset as given by the problem; so the models name end with _diamond.
 
 I'm not saving the model but only the anagraphic: training dataset, model used, creation time, version (that actually is the toal number of model created also with different algoeithms). In version 3.0.0 i'm oblied to save model (i can't train a new model every time the application is started)
+
+# Challenge 3 (version 3.0.0)
+Objective: 
+Build a developer-friendly **REST API** to 
+1. Predict the value of a diamond.
+2. Given the features of a diamond, return n samples from the training dataset with the same cut, color, and clarity, and the most similar weight.
+
+I realized just now that i never wrote the how to run section of the previous versions, i implicitly tougth to do it just for the final version but if someone check out to previous version there is no documentation on how to run the program (sorry. In case: just execute the main).
+
+First thing first: django, FastAPi or Flask? I'm more familiar with django (and db interaction will be super easy) but maybe it's a bit to much for just two API. I will go with Flask. 
+It's also time to reorder the structure of the project.
+```
+xtream-ai-assignment-developer/  
+│  
+├── app/                    # Application entry point and Flask API  
+│   ├── __init__.py         # Initializes Flask app  
+│   ├── routes.py           # Defines API routes  
+│   └── utils.py            # Helper functions for the app  
+│  
+├── models/                 # AI models and training scripts  
+│   ├── __init__.py         # Makes Python treat the directories as containing packages  
+│   ├── base_model.py       # Base model class definition  
+│   ├── get_model.py        # Script to map required model to relative moduel  
+│   ├── train_new_model.py  # Script to train new models  
+│   ├── models_script/      # Folder with script of implemented models  
+│   └── saved_model/        # Folder with saved file  
+│  
+├── data/                   # Data directory for storing datasets, etc.  
+│  
+├── notebooks/              # Jupyter notebooks for exploration and testing  
+│  
+├── requirements.txt        # Project dependencies  
+│  
+├── README.md               # Project overview and setup instructions  
+│  
+├── .gitignore              # Specifies intentionally untracked files to ignore  
+│  
+├── changelog.md            # Documenting all notable changes made to the project  
+|  
+├── ProjectDiary            # Support document to freely document project evolutionS
+```

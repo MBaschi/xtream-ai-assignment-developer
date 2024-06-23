@@ -1,7 +1,7 @@
 import pandas as pd
 import xgboost
 import optuna
-from AI_models.base_model import BaseSupervisedModel
+from models.base_model import BaseSupervisedModel
 from sklearn.metrics import r2_score, mean_absolute_error
 from sklearn.model_selection import train_test_split
 

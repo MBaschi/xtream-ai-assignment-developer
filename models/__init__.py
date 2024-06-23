@@ -1,0 +1,2 @@
+from .models_script.linear_regressor_diamond import LinearRegressorModelDiamond
+from .models_script.xgboost_diamond import XgBoostDiamond

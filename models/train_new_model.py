@@ -4,11 +4,11 @@ import json
 from pathlib import Path
 from datetime import datetime
 from zoneinfo import ZoneInfo
-from utils import (
+from models.utils import (
     load_df,
     data_cleaning,
 )
-from AI_models.get_model import get_model
+from models.get_model import get_model
 
 ROOT_PATH = Path(__file__).resolve().parents[0]
 DATA_PATH = ROOT_PATH / "data" / "diamonds.csv"
