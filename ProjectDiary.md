@@ -66,3 +66,5 @@ I did not specify the input type in the BaseModel class because the input type m
 This structure allows users to create new models following a logically ordered structure. Their responsibility is to create a new file in the AI_models folder and write the code accordingly.
 
 Since the BaseModel assumes the problem is supervised, I renamed it to BaseSupervisedModel. This allows for the expansion of the catalog of base models.
+
+Since inside the model there processing specific of the dataset (the name of the columns are inside the class) the model can only be used for the diamon dataset as given by the problem; so the models name end with _diamond.

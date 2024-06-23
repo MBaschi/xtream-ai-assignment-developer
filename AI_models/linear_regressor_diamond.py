@@ -1,30 +1,38 @@
+import pandas as pd
+import numpy as np
 from sklearn.linear_model import LinearRegression
 from AI_models.base_model import BaseSupervisedModel
+from sklearn.metrics import r2_score, mean_absolute_error
 
 
-class LienearRegressorModelDiamond(BaseSupervisedModel):
+class LinearRegressorModelDiamond(BaseSupervisedModel):
     """Linear Regressor model for the diamond dataset."""
 
-    def __init__(self):
-        self.model = LinearRegression
-        self.model_name = "Linear Regressor"
-        self.model_description = "Linear Regressor is a linear approach to modeling the relationship between a scalar response (or dependent variable) and one or more explanatory variables (or independent variables)."
-        self.metrics = {"r2": [], "mae": []}
+    model = LinearRegression()
+    model_name = "LinearRegresso_diamon_v0"
+    model_description = "Predicting the value of diamons base on they carapteristics with linear regression"
+    metrics = {"r2": [], "mae": []}
 
-    def input_preprocessing(self, x):
-        pass
+    def input_preprocessing(self, x: pd.DataFrame) -> np.array:
+        x.drop(columns=["depth", "table", "y", "z"], inplace=True)
+        x = pd.get_dummies(x, columns=["cut", "color", "clarity"], drop_first=True)
+        return x.values
 
     def target_preprocessing(self, y):
-        pass
+        return np.log(y)
 
     def fit(self, x, y):
-        pass
+        self.model.fit(x, y)
 
     def evaluate(self, y_predicted, y_real):
-        pass
+        r2 = r2_score(y_real, y_predicted)
+        mae = mean_absolute_error(y_real, y_predicted)
+        self.metrics["r2"] = r2
+        self.metrics["mae"] = mae
+        return self.metrics
 
     def predict(self, x):
-        pass
+        return self.model.predict(x)
 
     def postprocessing(self, y):
-        pass
+        return np.exp(y)

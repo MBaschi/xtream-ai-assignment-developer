@@ -96,7 +96,7 @@ class BaseSupervisedModel(ABC):
             The postprocessed data.
         """
 
-    def train_test_split(self, x, y, test_size, seed=np.random.randint(0, 2**32 - 1)):
+    def train_test_split(self, x, y, test_size, seed=np.random.randint(0, 2**16 - 1)):
         """
         Splits the data into training and testing sets.
 
@@ -111,7 +111,7 @@ class BaseSupervisedModel(ABC):
         """
         return train_test_split(x, y, test_size=test_size, random_state=seed)
 
-    def train_pipeline(self, x, y):
+    def train_pipeline(self, x, y, print_final_metrics=False):
         """
         Executes the complete training pipeline including preprocessing, splitting,
         training, predicting, postprocessing, and evaluating.
@@ -119,6 +119,7 @@ class BaseSupervisedModel(ABC):
         Parameters:
             x: The input data as a pandas DataFrame.
             y: The target data as a pandas DataFrame.
+            print_final_metrics: print the final metrics of the process 
 
         Returns:
             The evaluation metrics as a numpy array.
@@ -131,6 +132,9 @@ class BaseSupervisedModel(ABC):
         y_pred = self.postprocessing(y_pred)
         y_test = self.postprocessing(y_test)
         self.metrics = self.evaluate(y_pred, y_test)
+        if print_final_metrics:
+            for metric in self.metrics:
+                print(f"{metric}: {self.metrics[metric]}")
 
     def execution_pipeline(self, x):
         """
