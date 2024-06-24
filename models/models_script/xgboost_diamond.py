@@ -1,22 +1,23 @@
 import pandas as pd
 import xgboost
 import optuna
-from models.base_model import BaseSupervisedModel
 from sklearn.metrics import r2_score, mean_absolute_error
 from sklearn.model_selection import train_test_split
+from models.base_model import BaseSupervisedModel
 
 
 class XgBoostDiamond(BaseSupervisedModel):
     """Linear Regressor model for the diamond dataset."""
 
     model = xgboost.XGBRegressor(enable_categorical=True, random_state=42)
-    model_name = "XgBoost_diamon_v0"
+    model_name = "XgBoost"
     model_description = (
         "Predicting the value of diamons base on they carapteristics with xgboost"
     )
     metrics = {"r2": [], "mae": []}
 
-    def input_preprocessing(self, x):
+    @staticmethod
+    def input_preprocessing(x: pd.DataFrame) -> pd.DataFrame:
         x["cut"] = pd.Categorical(
             x["cut"],
             categories=["Fair", "Good", "Very Good", "Ideal", "Premium"],
@@ -32,30 +33,33 @@ class XgBoostDiamond(BaseSupervisedModel):
         )
         return x
 
-    def target_preprocessing(self, y):
+    @staticmethod
+    def target_preprocessing(y: pd.DataFrame) -> pd.DataFrame:
         return y
 
-    def fit(self, x, y):
+    def fit(self, x: pd.DataFrame, y: pd.DataFrame):
         best_params = self.optimize_hyperparam(x, y)
         self.model = xgboost.XGBRegressor(
             **best_params, enable_categorical=True, random_state=42
         )
         self.model.fit(x, y)
 
-    def evaluate(self, y_predicted, y_real):
+    def evaluate(self, y_predicted: pd.DataFrame, y_real: pd.DataFrame):
         r2 = r2_score(y_real, y_predicted)
         mae = mean_absolute_error(y_real, y_predicted)
         self.metrics["r2"] = r2
         self.metrics["mae"] = mae
         return self.metrics
 
-    def predict(self, x):
+    def predict(self, x: pd.DataFrame):
         return self.model.predict(x)
 
-    def postprocessing(self, y):
+    @staticmethod
+    def postprocessing(y: pd.DataFrame):
         return y
 
-    def optimize_hyperparam(self, x, y) -> None:
+    @staticmethod
+    def optimize_hyperparam(x: pd.DataFrame, y: pd.DataFrame) -> None:
 
         def objective(trial: optuna.trial.Trial) -> float:
             # Define hyperparameters to tune

@@ -1,24 +1,27 @@
 import pandas as pd
 import numpy as np
 from sklearn.linear_model import LinearRegression
-from models.base_model import BaseSupervisedModel
 from sklearn.metrics import r2_score, mean_absolute_error
+from models.base_model import BaseSupervisedModel
+
 
 
 class LinearRegressorModelDiamond(BaseSupervisedModel):
     """Linear Regressor model for the diamond dataset."""
 
     model = LinearRegression()
-    model_name = "LinearRegresso_diamond_v0"
+    model_name = "Linear Regressor"
     model_description = "Predicting the value of diamons base on they carapteristics with linear regression"
     metrics = {"r2": [], "mae": []}
 
-    def input_preprocessing(self, x: pd.DataFrame) -> np.array:
+    @staticmethod
+    def input_preprocessing(x: pd.DataFrame) -> np.array:
         x.drop(columns=["depth", "table", "y", "z"], inplace=True)
         x = pd.get_dummies(x, columns=["cut", "color", "clarity"], drop_first=True)
         return x.values
 
-    def target_preprocessing(self, y):
+    @staticmethod
+    def target_preprocessing(y):
         return np.log(y)
 
     def fit(self, x, y):
@@ -34,5 +37,6 @@ class LinearRegressorModelDiamond(BaseSupervisedModel):
     def predict(self, x):
         return self.model.predict(x)
 
-    def postprocessing(self, y):
+    @staticmethod
+    def postprocessing(y):
         return np.exp(y)

@@ -79,9 +79,9 @@ Build a developer-friendly **REST API** to
 1. Predict the value of a diamond.
 2. Given the features of a diamond, return n samples from the training dataset with the same cut, color, and clarity, and the most similar weight.
 
-I realized just now that i never wrote the how to run section of the previous versions, i implicitly tougth to do it just for the final version but if someone check out to previous version there is no documentation on how to run the program (sorry. In case: just execute the main).
+I just realized that I've never included a "How to Run" section in the documentation for previous versions of the project. I initially thought to add it only for the final version, but this oversight means there's no guidance for running earlier versions of the program (sorry. For reference: simply execute the main file).
 
-First thing first: django, FastAPi or Flask? I'm more familiar with django (and db interaction will be super easy) but maybe it's a bit to much for just two API. I will go with Flask. 
+First thing first: django, FastAPi or Flask? I'm more familiar with django (and db interaction will be super easier in challenge 4) but maybe it's a bit to much for just two API. I will go with Flask. 
 It's also time to reorder the structure of the project.
 ```
 xtream-ai-assignment-developer/  
@@ -113,3 +113,39 @@ xtream-ai-assignment-developer/
 |  
 ├── ProjectDiary            # Support document to freely document project evolutionS
 ```
+While writing train_new_model (that is basically the old main) i relazide that a setting.py file can be usefull for global project variables (such as the dataset path) i added it at the root. Also i don't like that the train_new_model is inside the models folder: it's a script that can be executed directly. For now he will stay in the toop root if the user whant to train a new model it has to manually launch it and modify variable in the setting.py. I should use argparser so that it can be executed from command line with arguments: dataset_path, model etc etc but for now like this it's ok. I will maybe change it in version 4.0.0.  
+So now the structure is:  
+```
+xtream-ai-assignment-developer/  
+│  
+├── app/                    # Application entry point and Flask API  
+│   ├── __init__.py         # Initializes Flask app  
+│   ├── routes.py           # Defines API routes  
+│   └── utils.py            # Helper functions for the app  
+│  
+├── models/                 # AI models and training scripts  
+│   ├── __init__.py         # Makes Python treat the directories as containing packages  
+│   ├── base_model.py       # Base model class definition  
+│   ├── get_model.py        # Script to map required model to relative module  
+│   ├── models_script/      # Folder with script of implemented models  
+│   └── saved_models/       # Folder with saved models  
+│    
+├── data/                   # Data directory for storing datasets, etc.  
+│  
+├── notebooks/              # Jupyter notebooks for exploration and testing  
+|  
+├── train_new_model.py  # Script to train new models, to be executed manually  
+│  
+├── requirements.txt        # Project dependencies  
+│  
+├── README.md               # Project overview and setup instructions  
+│  
+├── .gitignore              # Specifies intentionally untracked files to ignore  
+│  
+├── changelog.md            # Documenting all notable changes made to the project  
+│  
+└── ProjectDiary.md         # Support document to freely document project evolution  
+```
+I never used flask so i'm folliwing the base tutorial at https://flask.palletsprojects.com/en/3.0.x/tutorial/ 
+
+I added the save method to the basemodel, i choosed to save them as pickle with cloudpickle (better at handling more complex object than pickle). 

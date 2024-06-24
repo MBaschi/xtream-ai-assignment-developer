@@ -1,26 +1,18 @@
 """In the following code, will be implemented the pipeline for training the model with new data """
 
-import json
-from pathlib import Path
-from datetime import datetime
-from zoneinfo import ZoneInfo
 from models.utils import (
     load_df,
     data_cleaning,
 )
 from models.get_model import get_model
-
-ROOT_PATH = Path(__file__).resolve().parents[0]
-DATA_PATH = ROOT_PATH / "data" / "diamonds.csv"
-SAVE_PATH = ROOT_PATH / "model_history.json"
-MODEL_NAME = "xgboost"
+from setting import TRAINING_DATASET, DEFAULT_ALGORITHM
 
 
-def main():
+def train_new_model(dataset_path:str ,model_name:str = DEFAULT_ALGORITHM)-> None:
     """Main function to train the model with the diamond dataset."""
 
     # Load the data
-    data = load_df(DATA_PATH)
+    data = load_df(dataset_path)
     # Clean the data
     data = data_cleaning(data)
     # Select input and target data
@@ -28,12 +20,10 @@ def main():
     y = data["price"]
 
     # Get the model
-    model = get_model(MODEL_NAME)
+    model = get_model(model_name)
     model.train_pipeline(x, y, print_final_metrics=True)
-    model.save_model_anagraphic(
-        path=SAVE_PATH, training_dataset_name=Path(DATA_PATH).stem
-    )
+    model.save_model(training_dataset_name= dataset_path.stem)
 
 
 if __name__ == "__main__":
-    main()
+    train_new_model(TRAINING_DATASET, model_name = 'linear_regression')

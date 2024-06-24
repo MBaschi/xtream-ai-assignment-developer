@@ -3,11 +3,13 @@ as parent for all the models that will be implemented in the project."""
 
 from abc import ABC, abstractmethod
 import json
-from datetime import datetime
-from zoneinfo import ZoneInfo
+from datetime import datetime, timezone
+import sqlite3
 from sklearn.model_selection import train_test_split
 import numpy as np
-
+import cloudpickle
+from setting import DB_PATH, SAVE_PATH_MODELS
+import os 
 
 class BaseSupervisedModel(ABC):
 
@@ -153,27 +155,49 @@ class BaseSupervisedModel(ABC):
         y_pred = self.postprocessing(y_pred)
         return y_pred
 
-    def save_model_anagraphic(self, path: str, training_dataset_name: str) -> None:
-        try:
-            with open(path, "r") as f:
-                history = json.load(f)
-        except FileNotFoundError:
-            history = []
-
-        # Append the new model's details to the history list
-        history.append(
-            {
-                "Model": self.model_name,
-                "Version": len(history) + 1,
-                "Dataset": training_dataset_name,
-                "Metrics": self.metrics,
-                "Creation date": datetime.now(tz=ZoneInfo("UTC")).strftime(
-                    "%Y-%m-%d %H:%M:%S"
-                ),
-            }
-        )
-
-        # Write the updated history back to the file
-        with open(path, "w") as f:
-            f.write(json.dumps(history, indent=4))
+    def save_model_pickle(self, path: str) -> None:
+        """Save the model in a pickle file."""
+        with open(path, "wb") as f:
+            cloudpickle.dump(self, f)
             print("Model saved ")
+
+    def save_model(self, training_dataset_name: str) -> None:
+        """Save the model in the database and as pickle file."""
+
+        # Connect to the SQLite database
+        conn = sqlite3.connect(DB_PATH)
+        cursor = conn.cursor()
+
+        # Calculate the new version number for this model
+        cursor.execute(
+            "SELECT MAX(model_version) FROM models_history WHERE model_name = ?",
+            (self.model_name,),
+        )
+        max_version = cursor.fetchone()[0]
+        new_version = 1 if max_version is None else max_version + 1
+
+        pickle_path = os.path.join(SAVE_PATH_MODELS,self.model_name + str(new_version) + ".pkl")
+        # Insert the new model's details
+        cursor.execute(
+            """
+            INSERT INTO models_history (model_name, model_version, training_dataset, metrics, 
+            created, model_description,model_pickle_path)
+            VALUES (?, ?, ?, ?, ?, ?, ?)
+        """,
+            (
+                self.model_name,
+                new_version,
+                training_dataset_name,
+                json.dumps(self.metrics),
+                datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S"),
+                self.model_description,
+                pickle_path,
+            ),
+        )
+        self.save_model_pickle(path=pickle_path)
+
+        # Commit and close
+        conn.commit()
+        conn.close()
+
+        print("Model saved in database")
