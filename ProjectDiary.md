@@ -146,17 +146,24 @@ xtream-ai-assignment-developer/
 │  
 └── ProjectDiary.md         # Support document to freely document project evolution  
 ```
-I never used flask so i'm folliwing the base tutorial at https://flask.palletsprojects.com/en/3.0.x/tutorial/ 
+I never used flask so i'm folliwing the base tutorial at https://flask.palletsprojects.com/en/3.0.x/tutorial/. After the tutorial the folder structure if further modified: i will directly show the final structure in the read me file
 
 I added the save method to the basemodel, i choosed to save them as pickle with cloudpickle (better at handling more complex object than pickle). 
 
-DB interaction are done by writing the query. I could use SQL alchemy but since i never used it and time in running so i will put in a possible improvments section.  
+DB interaction are done by writing the query. I could use SQL alchemy but since i never used it and i don't have much time. 
 
-The assigment ask to return diamonds with most similar weight 
+I had to modify the get dummies with the one encoding because is and object that i can fit and save
 
+I considered that the user would send diamon feature without the price
+Since the project is starting to be complex i created two section in this file: Possible improvments and test to write
 
-
-# Possible improvment
+# Possible improvments
 - Use SQL alchemy for better db interaction
 - Handle request with empty or wrong data
-- Document api with OpenAPI format
+- Document api (share postman collection)
+
+# Tests to write
+- Test creation and saving of both models
+- Test api execution with both model
+- Test api handling of wrong input
+

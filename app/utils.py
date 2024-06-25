@@ -1,6 +1,8 @@
-import cloudpickle
 import sqlite3
+import cloudpickle
 from setting import DB_PATH
+
+
 def get_model_pickle_path(model_name, model_version=None):
     # Connect to the SQLite database
     conn = sqlite3.connect(DB_PATH)
@@ -30,10 +32,11 @@ def get_model_pickle_path(model_name, model_version=None):
             (model_name, model_name),
         )
     pickle_path = cursor.fetchone()
-    return pickle_path[0] 
+    return pickle_path[0]
+
 
 def load_model(model_path: str):
     """Load the model from the given path."""
-    with open(model_path,"rb") as file:
+    with open(model_path, "rb") as file:
         model = cloudpickle.load(file)
     return model

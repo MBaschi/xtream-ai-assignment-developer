@@ -28,6 +28,11 @@ class BaseSupervisedModel(ABC):
     def metrics(self) -> dict:
         """Returns a dictionary containing the evaluation metrics of the model."""
 
+    @property
+    @abstractmethod
+    def model(self):
+        """Returns the model instance."""
+
     @abstractmethod
     def input_preprocessing(self, x):
         """
@@ -60,6 +65,8 @@ class BaseSupervisedModel(ABC):
         Parameters:
             x: The preprocessed input data.
             y: The preprocessed target data.
+        Returns:
+            self.model: the fitted model
         """
 
     @abstractmethod
@@ -130,7 +137,7 @@ class BaseSupervisedModel(ABC):
         x = self.input_preprocessing(x)
         y = self.target_preprocessing(y)
         x_train, x_test, y_train, y_test = self.train_test_split(x, y, test_size=0.2)
-        self.fit(x_train, y_train)
+        self.model = self.fit(x_train, y_train)
         y_pred = self.predict(x_test)
         y_pred = self.postprocessing(y_pred)
         y_test = self.postprocessing(y_test)

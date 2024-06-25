@@ -43,6 +43,7 @@ class XgBoostDiamond(BaseSupervisedModel):
             **best_params, enable_categorical=True, random_state=42
         )
         self.model.fit(x, y)
+        return self.model
 
     def evaluate(self, y_predicted: pd.DataFrame, y_real: pd.DataFrame):
         r2 = r2_score(y_real, y_predicted)

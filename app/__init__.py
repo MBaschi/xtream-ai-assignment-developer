@@ -3,6 +3,7 @@ import os
 from flask import Flask
 from .api import api_bp  # Import the blueprint
 
+
 def create_app():
     # create and configure the app
     app = Flask(__name__, instance_relative_config=True)
@@ -10,7 +11,7 @@ def create_app():
         SECRET_KEY="dev",
         DATABASE=os.path.join(app.instance_path, "app_db.sqlite"),
     )
-    
+
     app.register_blueprint(api_bp)
 
     # a simple page that says hello

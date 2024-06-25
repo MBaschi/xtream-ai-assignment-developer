@@ -9,7 +9,18 @@ from setting import TRAINING_DATASET, DEFAULT_ALGORITHM
 
 
 def train_new_model(dataset_path:str ,model_name:str = DEFAULT_ALGORITHM)-> None:
-    """Main function to train the model with the diamond dataset."""
+    """Trains a new model using the specified dataset.
+
+    This function orchestrates the process of training a model by first loading and 
+    cleaning the dataset, then separating it into features and target variable. 
+    It subsequently retrieves the specified model, trains it using the prepared data, 
+    finally saves the trained model.
+
+    Args:
+        dataset_path (str): The file path to the dataset used for training.
+        model_name (str, optional): The name of the algorithm to use for training. 
+            Defaults to DEFAULT_ALGORITHM.
+    """
 
     # Load the data
     data = load_df(dataset_path)
@@ -23,7 +34,6 @@ def train_new_model(dataset_path:str ,model_name:str = DEFAULT_ALGORITHM)-> None
     model = get_model(model_name)
     model.train_pipeline(x, y, print_final_metrics=True)
     model.save_model(training_dataset_name= dataset_path.stem)
-
 
 if __name__ == "__main__":
     train_new_model(TRAINING_DATASET, model_name = 'Linear Regressor')
