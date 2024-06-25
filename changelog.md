@@ -12,3 +12,10 @@
 ## Features
 - created base models class for clean pipeline execution and application structural order 
 - implemented linear regressor model and xgboost model (trained with hyperparameter optimization)
+
+## 3.0.0
+
+## Features
+- Created app to get model predictions and similar diamonds in the db
+- Created sqlite database to store model hystory
+- Every trained model is saved as pickle
