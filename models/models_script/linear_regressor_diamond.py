@@ -26,7 +26,7 @@ class LinearRegressorModelDiamond(BaseSupervisedModel):
 
     def fit(self, x, y):
         self.model.fit(x, y)
-
+        
     def evaluate(self, y_predicted, y_real):
         r2 = r2_score(y_real, y_predicted)
         mae = mean_absolute_error(y_real, y_predicted)

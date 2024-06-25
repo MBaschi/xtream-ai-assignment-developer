@@ -26,4 +26,4 @@ def train_new_model(dataset_path:str ,model_name:str = DEFAULT_ALGORITHM)-> None
 
 
 if __name__ == "__main__":
-    train_new_model(TRAINING_DATASET, model_name = 'linear_regression')
+    train_new_model(TRAINING_DATASET, model_name = 'Linear Regressor')

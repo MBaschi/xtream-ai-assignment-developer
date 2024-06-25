@@ -149,3 +149,14 @@ xtream-ai-assignment-developer/
 I never used flask so i'm folliwing the base tutorial at https://flask.palletsprojects.com/en/3.0.x/tutorial/ 
 
 I added the save method to the basemodel, i choosed to save them as pickle with cloudpickle (better at handling more complex object than pickle). 
+
+DB interaction are done by writing the query. I could use SQL alchemy but since i never used it and time in running so i will put in a possible improvments section.  
+
+The assigment ask to return diamonds with most similar weight 
+
+
+
+# Possible improvment
+- Use SQL alchemy for better db interaction
+- Handle request with empty or wrong data
+- Document api with OpenAPI format
