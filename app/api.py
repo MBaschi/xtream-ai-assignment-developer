@@ -2,7 +2,7 @@ import pandas as pd
 from flask import Blueprint, request
 from flask import jsonify
 from app.utils import load_model, get_model_pickle_path
-from setting import TRAINING_DATASET
+from setting import DEFAULT_DATASET
 from models.utils import (
     load_df,
     data_cleaning,
@@ -97,7 +97,7 @@ def find_similar_diamonds():
     input_data = request.json.get("data")
     num_similar_diamonds = request.json.get("num_similar_diamonds")
 
-    data = load_df(TRAINING_DATASET)
+    data = load_df(DEFAULT_DATASET)
     input_data = pd.DataFrame(input_data)
     input_data = data_cleaning(input_data, target_present=False)
     if len(input_data) == 0:

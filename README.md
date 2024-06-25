@@ -82,4 +82,37 @@ Observability is key. Save every request and response made to the APIs to a **pr
   `;'-..___)   |     `/-\-\-`
     `-.       .'
        `~~~~``
+
 ```
+### Installation
+Install the requirements and activate the virtual env. 
+
+### Train a new model
+To train a new model with the given dataset execute 
+
+```
+python train_new_model.py --model "model_name"
+```
+Valid model_names are:
+- Linear Regressor
+- Xgboost 
+
+Xgboost is set as default value.  
+
+To change training dataset give the dataset path as:  
+```
+python train_new_model.py --dataset path/to/dataset.csv  
+```  
+### Build a new model
+Create a model class in the models/models_script folder using the BaseSupervisedModel class in the base_model.py file. Use already built model as referenceces. 
+Update the get_model method in get_model.py file.  
+Train the new model wit:  
+```
+python train_new_model.py --model "your_new_model_name"   
+```  
+### Run app
+Execute:   
+```
+flask run  
+```  
+Interact with the app trough the api documented at: https://documenter.getpostman.com/view/32395700/2sA3drGtvT

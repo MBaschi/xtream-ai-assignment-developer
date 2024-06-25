@@ -161,6 +161,7 @@ Since the project is starting to be complex i created two section in this file: 
 - Use SQL alchemy for better db interaction
 - Handle request with empty or wrong data
 - Document api (share postman collection)
+- Automatic compiling of available models
 
 # Tests to write
 - Test creation and saving of both models

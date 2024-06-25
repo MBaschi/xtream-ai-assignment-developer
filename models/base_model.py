@@ -206,5 +206,3 @@ class BaseSupervisedModel(ABC):
         # Commit and close
         conn.commit()
         conn.close()
-
-        print("Model saved in database")
