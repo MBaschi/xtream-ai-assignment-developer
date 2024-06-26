@@ -164,12 +164,28 @@ I considered creating a decorator to automatically log requests and responses in
 
 One issue with logging at the end of a request is the possibility of missing logs for requests that cause errors, preventing the `after_request` from being triggered. Initially, I thought about using `before_request` to log incoming requests and then updating these logs in `after_request`. However, this adds complexity, so i avoided.
 
+I realized that i didn't create the branch and commited directly on the main. Not the best practise.
+
+# Version 4.X.X
+The assignment, including all requested features, is complete. However, there are several enhancements that I consider essential to implement next.
+Here's the planned roadmap:
+- 4.1.0: Containerize the application with Docker
+- 4.2.0: Implement tests for model creation and persistence
+- 4.3.0: Develop tests for the API
+- 4.4.0: Employ test-driven development to ensure API request validation
+
+Altough test priority is higher than the docker image i put the dockerization as first minor releas because should be faster to implement.
+
 # Possible improvments
 - Use SQL alchemy for better db interaction
 - Handle request with empty or wrong data
 - Improve Api documentation
 - Automatic compiling of available models
 - Add a log file 
+- Create pre-commit hooks for formatting and lynting
+- ontainerize the application using Docker
+- Use .env for secret variables and environment customization
+- Implement authentication mechanisms to restrict access
 
 # Tests to write
 - Test creation and saving of both models

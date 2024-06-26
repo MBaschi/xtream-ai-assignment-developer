@@ -19,3 +19,8 @@
 - Created app to get model predictions and similar diamonds in the db
 - Created sqlite database to store model hystory
 - Every trained model is saved as pickle
+
+## 4.0.0
+
+## Features
+- Record all recieved api, with request and response, on DB
