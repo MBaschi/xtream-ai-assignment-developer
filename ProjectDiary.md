@@ -193,5 +193,34 @@ Here's the planned roadmap:
 - 4.4.0: Create test for API
 
 
+# Version 4.1.0 (docker)
+I've used docker for some simple program in python, but i want at least to try.
 
+First problem: the execution failed because was unable to dockerize pywin32. Asking copilot it say: "This issue likely arises because pywin32 is a package that provides extensions for Windows, and your Docker container is probably based on a Linux image", copilot suggested to disable it but i had to discover why it was installed. With pipdeptree i discovered that is installed with the jupyter notebook package that is not essential during production, so i will disable it with: sys_platform == 'win32' next to the requirements file. This is not the best since i would have to manually remove this packages every time i do pip freeze > requirements. The better approach is to have a virtual env with just the necessary packages and compile the requiremnts from there. --> Solved  
 
+Second problem: path pointing inside the docker is different, i'm still a bit confused becuse model training and api /similar_diamonds works, but saving and recovering file pickle don't work and i get erro with path pointing. Db initialization inside the docker seem to be ok. i changed the docker to create the pickle folder with the correct path. I trained a new model and it resulted: 
+```  
+docker run appii python train_new_model.py --model "Linear Regressor"   
+r2: 0.9428173041247604  
+mae: 484.44388927626056  
+Model saved at /usr/src/app/models/saved_model/Linear Regressor1.pkl  
+```  
+But when i launched:  
+```
+ docker run appii python available_models.py 
+```  
+A command that i written to print all file in the model repository and the path saved on the db resulted in:  
+```  
+/usr/src/app/models/saved_model/XgBoost1.pkl  
+/usr/src/app/models/saved_model/XgBoost2.pkl  
+```  
+So the linear model that i just built wasn't actually saved.  
+Since the docker image is not straigth forward i'll leave the branch open and switch to building the tests.  
+I write here the usefull docker command in case i'll come back:  
+```    
+docker build -t image_name .   #to create the image
+docker run -p 5000:5000 image_name  #to run the server 
+docker run image_name python command.py  #to run a command
+docker run image_name flask --app app init-db #to init the db 
+docker run -it --name container_name image_name /bin/bash # to run a container form the image and open the bash shell
+```   
