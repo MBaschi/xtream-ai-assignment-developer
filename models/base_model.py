@@ -166,7 +166,7 @@ class BaseSupervisedModel(ABC):
         """Save the model in a pickle file."""
         with open(path, "wb") as f:
             cloudpickle.dump(self, f)
-            print("Model saved ")
+            print(f"Model saved at {path} ")
 
     def save_model(self, training_dataset_name: str) -> None:
         """Save the model in the database and as pickle file."""
