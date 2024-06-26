@@ -2,7 +2,7 @@ import sqlite3
 
 import click
 from flask import current_app, g
-
+from app.utils import delete_all_models_pickle_file
 
 def get_db():
     if "db" not in g:
@@ -32,6 +32,7 @@ def init_db():
 def init_db_command():
     """Clear the existing data and create new tables."""
     init_db()
+    delete_all_models_pickle_file()
     click.echo("Initialized the database.")
 
 

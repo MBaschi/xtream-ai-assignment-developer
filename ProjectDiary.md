@@ -157,11 +157,19 @@ I had to modify the get dummies with the one encoding because is and object that
 I considered that the user would send diamon feature without the price
 Since the project is starting to be complex i created two section in this file: Possible improvments and test to write
 
+# Challenge 4 (version 4.0.0)
+I added a new table to the database specifically for API storage, capturing all incoming requests and their responses. With the actual implementation there are some problems: for instance, users could send excessively large requests, which would then be stored in the database. Additionally, storing any data received from external sources poses security risks. Assuming that the API is only accessible to our internal team, who are aware of these limitations, this setup might be considered acceptable.
+
+I considered creating a decorator to automatically log requests and responses in the database. However, I found that Flask already offers a built-in solution for this.
+
+One issue with logging at the end of a request is the possibility of missing logs for requests that cause errors, preventing the `after_request` from being triggered. Initially, I thought about using `before_request` to log incoming requests and then updating these logs in `after_request`. However, this adds complexity, so i avoided.
+
 # Possible improvments
 - Use SQL alchemy for better db interaction
 - Handle request with empty or wrong data
-- Document api (share postman collection)
+- Improve Api documentation
 - Automatic compiling of available models
+- Add a log file 
 
 # Tests to write
 - Test creation and saving of both models

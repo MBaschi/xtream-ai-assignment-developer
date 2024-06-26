@@ -1,6 +1,6 @@
 
 DROP TABLE IF EXISTS models_history;
-
+DROP TABLE IF EXISTS api_history;
 
 CREATE TABLE models_history (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -11,4 +11,12 @@ CREATE TABLE models_history (
   model_pickle_path TEXT NOT NULL,
   model_version INTEGER NOT NULL,
   training_dataset TEXT NOT NULL
+);
+
+CREATE TABLE api_history (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  api TEXT NOT NULL,
+  request TEXT NOT NULL,
+  response TEXT NOT NULL
 );

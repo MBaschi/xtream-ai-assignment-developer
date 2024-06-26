@@ -1,14 +1,52 @@
+import sqlite3
+import json
 import pandas as pd
 from flask import Blueprint, request
 from flask import jsonify
 from app.utils import load_model, get_model_pickle_path
-from setting import DEFAULT_DATASET
+from setting import DEFAULT_DATASET, DB_PATH
 from models.utils import (
     load_df,
     data_cleaning,
 )
 
 api_bp = Blueprint("api", __name__)
+
+
+@api_bp.after_request
+def after_request_for_api_hystory_storage(response):
+    """
+    Logs API request details to the SQLite database after each request.
+
+    This function is executed after each API request. It connects to an SQLite
+    database specified by the DB_PATH variable, and inserts the details of the
+    API request and response into the api_history table. This includes the API
+    endpoint (path), the request payload, and the response data.
+
+    Parameters:
+    - response: The response object that is about to be sent to the client.
+
+    Returns:
+    - The unmodified response object, ensuring that the logging operation does
+      not interfere with the response sent back to the client.
+    """
+    # Connect to the SQLite database
+    conn = sqlite3.connect(DB_PATH)
+    cursor = conn.cursor()
+
+    # Insert the new model's details
+    cursor.execute(
+        """
+            INSERT INTO api_history (api, request, response)
+            VALUES (?, ?, ?)
+        """,
+        (request.path, json.dumps(request.json), json.dumps(response.json)),
+    )
+
+    # Commit and close
+    conn.commit()
+    conn.close()
+    return response
 
 
 @api_bp.route("/predict_price")
