@@ -166,17 +166,11 @@ One issue with logging at the end of a request is the possibility of missing log
 
 I realized that i didn't create the branch and commited directly on the main. Not the best practise.
 
+
 # Version 4.X.X
-The assignment, including all requested features, is complete. However, there are several enhancements that I consider essential to implement next.
-Here's the planned roadmap:
-- 4.1.0: Containerize the application with Docker
-- 4.2.0: Implement tests for model creation and persistence
-- 4.3.0: Develop tests for the API
-- 4.4.0: Employ test-driven development to ensure API request validation
+The assignment, including all requested features, is complete. However, there are several enhancements that I consider essential to implement next:
 
-Altough test priority is higher than the docker image i put the dockerization as first minor releas because should be faster to implement.
-
-# Possible improvments
+## Possible improvments
 - Use SQL alchemy for better db interaction
 - Handle request with empty or wrong data
 - Improve Api documentation
@@ -187,8 +181,17 @@ Altough test priority is higher than the docker image i put the dockerization as
 - Use .env for secret variables and environment customization
 - Implement authentication mechanisms to restrict access
 
-# Tests to write
+## Tests to write
 - Test creation and saving of both models
 - Test api execution with both model
 - Test api handling of wrong input
+
+Here's the planned roadmap:
+- 4.1.0: Containerize the application with Docker
+- 4.2.0: Validate Api Request
+- 4.3.0: Create test for model executions
+- 4.4.0: Create test for API
+
+
+
 
