@@ -49,7 +49,7 @@ def after_request_for_api_hystory_storage(response):
     return response
 
 
-@api_bp.route("/predict_price")
+@api_bp.route("/predict_price", methods=['POST'])
 def predict_diamond_price():
     """
     Predict the price of a diamond based on its characteristics.
@@ -97,7 +97,7 @@ def predict_diamond_price():
     return jsonify({"result": prediction.tolist()}), 200
 
 
-@api_bp.route("/similar_diamonds")
+@api_bp.route("/similar_diamonds", methods=['POST'])
 def find_similar_diamonds():
     """
     Find diamonds with similar characteristics to the input diamond.

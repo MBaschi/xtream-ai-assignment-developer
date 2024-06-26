@@ -86,11 +86,25 @@ Observability is key. Save every request and response made to the APIs to a **pr
 ```
 ### Installation
 1. **Clone the Repository**  
-2. **Set Up a Virtual Environment**  
+Use Git to clone the repository to your local machine. Open a terminal and run:
+```
+git clone https://github.com/your-username/your-repository-name.git cd your-repository-name
+```
+2. **Set Up a Virtual Environment**
+It's best practice to use a virtual environment for Python projects. This keeps dependencies required by different projects separate. Create a virtual environment by running:  
 ```  
 python -m venv venv_name  
 ```  
 3. **Activate Virtual Environment** 
+Before installing dependencies, activate the virtual environment:
+- On Windows
+```  
+.\venv_name\Scripts\activate
+```  
+- On macOS and Linux:
+```  
+source venv_name/bin/activate
+```  
 
 4. **Install Dependencies**  
 ```
@@ -102,8 +116,7 @@ Execute:
 ```
 flask run  
 ```  
-Interact with the app trough the api documented at: https://documenter.getpostman.com/view/32395700/2sA3drGtvT
-
+Access the application's functionalities via the API, documentation available here: https://documenter.getpostman.com/view/32395700/2sA3drGtvT
 ### Train a new model
 To train a new model with the given dataset execute 
 
@@ -120,10 +133,13 @@ To change training dataset give the dataset path as:
 ```
 python train_new_model.py --dataset path/to/dataset.csv  
 ```  
-### Build a new model
-Create a model class in the models/models_script folder using the BaseSupervisedModel class in the base_model.py file. Use already built model as referenceces. 
-Update the get_model method in get_model.py file.  
-Train the new model wit:  
+### Build a new model pipeline
+To develop a new model, incorporating either a novel processing pipeline or algorithm, extend the `BaseSupervisedModel` class found in `model/base_model.py`. Refer to the existing models within `models/models_script` for guidance. Place your new model in the `models/models_script` directory. 
+
+Next, modify the `get_model` function within the `get_model.py` file to include your new model. 
+
+To train your newly created model, execute the following command:
+
 ```
 python train_new_model.py --model "your_new_model_name"   
 ```
