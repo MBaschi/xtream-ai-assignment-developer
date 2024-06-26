@@ -31,3 +31,9 @@
 ## Features
 - Added control to API request: diamond data have to conform with expected values
 - Added project structure documentation to the README
+
+
+## 4.1.1
+
+## Fix
+- Small adjustment to README
