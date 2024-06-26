@@ -24,3 +24,10 @@
 
 ## Features
 - Record all recieved api, with request and response, on DB
+
+
+## 4.1.0
+
+## Features
+- Added control to API request: diamond data have to conform with expected values
+- Added project structure documentation to the README
