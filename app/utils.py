@@ -2,7 +2,7 @@ import os
 import shutil
 import sqlite3
 import cloudpickle
-from setting import DB_PATH,SAVE_PATH_MODELS
+from setting import DB_PATH, SAVE_PATH_MODELS
 
 
 def get_model_pickle_path(model_name, model_version=None):
@@ -44,6 +44,7 @@ def load_model(model_path: str):
         model = cloudpickle.load(file)
     return model
 
+
 def delete_all_models_pickle_file():
     folder = SAVE_PATH_MODELS
     for filename in os.listdir(folder):
@@ -54,9 +55,10 @@ def delete_all_models_pickle_file():
             elif os.path.isdir(file_path):
                 shutil.rmtree(file_path)
         except Exception as e:
-            print('Failed to delete %s. Reason: %s' % (file_path, e))
+            print("Failed to delete %s. Reason: %s" % (file_path, e))
 
-def check_data_correctness(input_data:dict):
+
+def check_data_correctness(input_data_list: dict):
     """
     Validates the correctness of input data based on predefined criteria.
 
@@ -77,23 +79,46 @@ def check_data_correctness(input_data:dict):
     ALLOWED_COLOR = ["D", "E", "F", "G", "H", "I", "J"]
     ALLOWED_CLARITY = ["IF", "VVS1", "VVS2", "VS1", "VS2", "SI1", "SI2", "I1"]
 
-    # Check if all required columns are present
-    required_columns = ['carat', 'cut', 'color', 'clarity', 'depth', 'table', 'x', 'y', 'z']
-    if not all(column in input_data for column in required_columns):
-        return False, "Missing required columns"
+    for input_data in input_data_list:
+        # Check if all required columns are present
+        required_columns = [
+            "carat",
+            "cut",
+            "color",
+            "clarity",
+            "depth",
+            "table",
+            "x",
+            "y",
+            "z",
+        ]
+        if not all(column in input_data for column in required_columns):
+            return False, "Missing required columns"
 
-    # Check if string fields have allowed values
-    if input_data['cut'] not in ALLOWED_CUT:
-        return False, "Invalid value for 'cut'"
-    if input_data['color'] not in ALLOWED_COLOR:
-        return False, "Invalid value for 'color'"
-    if input_data['clarity'] not in ALLOWED_CLARITY:
-        return False, "Invalid value for 'clarity'"
+        # Check if string fields are of type string and have allowed values
+        if (
+            not isinstance(input_data["cut"], str)
+            or input_data["cut"] not in ALLOWED_CUT
+        ):
+            return False, "Invalid or incorrect type for 'cut'"
+        if (
+            not isinstance(input_data["color"], str)
+            or input_data["color"] not in ALLOWED_COLOR
+        ):
+            return False, "Invalid or incorrect type for 'color'"
+        if (
+            not isinstance(input_data["clarity"], str)
+            or input_data["clarity"] not in ALLOWED_CLARITY
+        ):
+            return False, "Invalid or incorrect type for 'clarity'"
 
-    # Check if numerical fields are greater than zero
-    numerical_fields = ['carat', 'depth', 'table', 'x', 'y', 'z']
-    if any(input_data[field] <= 0 for field in numerical_fields):
-        return False, "Numerical fields must be greater than zero"
+        # Check if numerical fields are greater than zero
+        numerical_fields = ["carat", "depth", "table", "x", "y", "z"]
+        try:
+            if any(float(input_data[field]) <= 0 for field in numerical_fields):
+                return False, "Numerical fields must be greater than zero"
+        except ValueError:
+            return False, "Numerical fields contain non-numeric values"
 
     # If all checks pass
     return True, "Input data is in the correct format"
