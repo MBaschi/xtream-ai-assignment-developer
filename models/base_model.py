@@ -9,7 +9,8 @@ from sklearn.model_selection import train_test_split
 import numpy as np
 import cloudpickle
 from setting import DB_PATH, SAVE_PATH_MODELS
-import os 
+import os
+
 
 class BaseSupervisedModel(ABC):
 
@@ -183,7 +184,9 @@ class BaseSupervisedModel(ABC):
         max_version = cursor.fetchone()[0]
         new_version = 1 if max_version is None else max_version + 1
 
-        pickle_path = os.path.join(SAVE_PATH_MODELS,self.model_name + str(new_version) + ".pkl")
+        pickle_path = os.path.join(
+            SAVE_PATH_MODELS, self.model_name + str(new_version) + ".pkl"
+        )
         # Insert the new model's details
         cursor.execute(
             """

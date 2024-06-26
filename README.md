@@ -85,7 +85,24 @@ Observability is key. Save every request and response made to the APIs to a **pr
 
 ```
 ### Installation
-Install the requirements and activate the virtual env. 
+1. **Clone the Repository**  
+2. **Set Up a Virtual Environment**  
+```  
+python -m venv venv_name  
+```  
+3. **Activate Virtual Environment** 
+
+4. **Install Dependencies**  
+```
+pip install -r requirements.txt  
+```
+
+### Run app
+Execute:   
+```
+flask run  
+```  
+Interact with the app trough the api documented at: https://documenter.getpostman.com/view/32395700/2sA3drGtvT
 
 ### Train a new model
 To train a new model with the given dataset execute 
@@ -109,10 +126,42 @@ Update the get_model method in get_model.py file.
 Train the new model wit:  
 ```
 python train_new_model.py --model "your_new_model_name"   
-```  
-### Run app
-Execute:   
 ```
-flask run  
-```  
-Interact with the app trough the api documented at: https://documenter.getpostman.com/view/32395700/2sA3drGtvT
+
+## Project structure
+```
+xtream-ai-assignment-developer/  
+│  
+├── app/                    # Application entry point and Flask API  
+│   ├── __init__.py         # Initializes Flask app  
+│   ├── api.py              # Defines API routes  
+│   ├── db.py               # Methods for db  
+│   ├── schema.sql          # Db tables creation query
+│   └── utils.py            # Helper functions for the app 
+|
+├── data/                   # Data directory for storing datasets, etc.  
+│  
+├── instance/               # Folder for db  
+|
+├── models/                 # AI models and training scripts  
+│   ├── __init__.py         # Makes Python treat the directories as containing packages  
+│   ├── base_model.py       # Base model class definition  
+│   ├── get_model.py        # Script to map required model to relative module  
+│   ├── models_script/      # Folder with script of implemented models 
+│   ├── saved_models/       # Folder with saved models 
+│   └── utils.py            # Helper functions for the models  
+│    
+├── notebooks/              # Jupyter notebooks for exploration and testing  
+|  
+├── train_new_model.py      # Script to train new models, to be executed manually  
+│  
+├── requirements.txt        # Project dependencies  
+│  
+├── README.md               # Project overview and setup instructions  
+│  
+├── .gitignore              # Specifies intentionally untracked files to ignore  
+│  
+├── changelog.md            # Documenting all notable changes made to the project  
+│  
+└── ProjectDiary.md         # Support document to freely document project evolution  
+```

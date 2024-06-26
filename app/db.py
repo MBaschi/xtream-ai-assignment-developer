@@ -4,6 +4,7 @@ import click
 from flask import current_app, g
 from app.utils import delete_all_models_pickle_file
 
+
 def get_db():
     if "db" not in g:
         g.db = sqlite3.connect(

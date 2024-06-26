@@ -28,7 +28,7 @@ class LinearRegressorModelDiamond(BaseSupervisedModel):
         # Fitting the OneHotEncoder and transforming the categorical data
         # Check if the encoder has been fitted
         if not hasattr(self.ohe, "categories_"):
-            self.ohe=self.ohe.fit(x_categorical)
+            self.ohe = self.ohe.fit(x_categorical)
         x_encoded = self.ohe.transform(x_categorical).toarray()
 
         # Concatenating the numeric and encoded categorical data
@@ -37,7 +37,7 @@ class LinearRegressorModelDiamond(BaseSupervisedModel):
         return x_preprocessed
 
     @staticmethod
-    def target_preprocessing(y:np.array) -> np.array:
+    def target_preprocessing(y: np.array) -> np.array:
         return np.log(y)
 
     def fit(self, x, y):
@@ -55,5 +55,5 @@ class LinearRegressorModelDiamond(BaseSupervisedModel):
         return self.model.predict(x)
 
     @staticmethod
-    def postprocessing(y:np.array) -> np.array:
+    def postprocessing(y: np.array) -> np.array:
         return np.exp(y)

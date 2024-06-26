@@ -3,12 +3,12 @@ import json
 import pandas as pd
 from flask import Blueprint, request
 from flask import jsonify
-from app.utils import load_model, get_model_pickle_path
+from app.utils import load_model, get_model_pickle_path, check_data_correctness
 from setting import DEFAULT_DATASET, DB_PATH
 from models.utils import (
     load_df,
-    data_cleaning,
 )
+
 
 api_bp = Blueprint("api", __name__)
 
@@ -82,25 +82,19 @@ def predict_diamond_price():
     model_name = request.json.get("model_name")
     model_version = request.json.get("model_version")
 
-    # TODO add check for data correctness
-    #     check if all columns are present in the input data
-    #     check if the data types are correct
-    #     check if the data is in the correct range
-    #     check if the data is not empty
-    #     check if the model name exist
-    #     check if the model version exist
+    valid_input, message = check_data_correctness(input_data)
+    if not valid_input:
+        return jsonify({"error": message}), 400
 
-    path = get_model_pickle_path(model_name, model_version)
-    model = load_model(path)
+    try:
+        path = get_model_pickle_path(model_name, model_version)
+        model = load_model(path)
+    except Exception as e:
+        return jsonify({"error": f"Model not found: {e}"}), 404
 
     input_data = pd.DataFrame(input_data)
-    input_data = data_cleaning(input_data, target_present=False)
-
-    if len(input_data) == 0:
-        return jsonify({"error": "Invalid input data"}), 400
-
     prediction = model.execution_pipeline(input_data)
-    return jsonify({"result": prediction.tolist()})
+    return jsonify({"result": prediction.tolist()}), 200
 
 
 @api_bp.route("/similar_diamonds")
@@ -136,11 +130,12 @@ def find_similar_diamonds():
     num_similar_diamonds = request.json.get("num_similar_diamonds")
 
     data = load_df(DEFAULT_DATASET)
-    input_data = pd.DataFrame(input_data)
-    input_data = data_cleaning(input_data, target_present=False)
-    if len(input_data) == 0:
-        return jsonify({"error": "Invalid input data"}), 400
 
+    valid_input, message = check_data_correctness(input_data)
+    if not valid_input:
+        return jsonify({"error": message}), 400
+
+    input_data = pd.DataFrame(input_data)
     data_same_characteristics = data.loc[
         (data["cut"] == input_data["cut"].values[0])
         & (data["color"] == input_data["color"].values[0])

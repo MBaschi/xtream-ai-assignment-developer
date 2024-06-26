@@ -17,7 +17,7 @@ def load_df(path: str) -> pd.DataFrame:
     return df
 
 
-def data_cleaning(df: pd.DataFrame, target_present:bool=True) -> pd.DataFrame:
+def data_cleaning(df: pd.DataFrame, target_present: bool = True) -> pd.DataFrame:
     """
     Clean the DataFrame by removing missing values, zero dimensions, and negative prices.
 

@@ -193,7 +193,7 @@ Here's the planned roadmap:
 - 4.4.0: Create test for API
 
 
-# Version 4.1.0 (docker)
+# Version 4.x.0 (docker)
 I've used docker for some simple program in python, but i want at least to try.
 
 First problem: the execution failed because was unable to dockerize pywin32. Asking copilot it say: "This issue likely arises because pywin32 is a package that provides extensions for Windows, and your Docker container is probably based on a Linux image", copilot suggested to disable it but i had to discover why it was installed. With pipdeptree i discovered that is installed with the jupyter notebook package that is not essential during production, so i will disable it with: sys_platform == 'win32' next to the requirements file. This is not the best since i would have to manually remove this packages every time i do pip freeze > requirements. The better approach is to have a virtual env with just the necessary packages and compile the requiremnts from there. --> Solved  
@@ -224,3 +224,7 @@ docker run image_name python command.py  #to run a command
 docker run image_name flask --app app init-db #to init the db 
 docker run -it --name container_name image_name /bin/bash # to run a container form the image and open the bash shell
 ```   
+
+# Version 4.1.0 (check api request)
+I will add control to api request so that thei are correctlly recieved
+
