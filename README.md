@@ -112,12 +112,17 @@ pip install -r requirements.txt
 ```
 
 ### Run app
-Execute:   
+Initialize app Database with:
+```
+flask --app app init-db 
+```  
+By default the application don't have any trained model. In order to get diamond prediction train a model by following instruction in the next section.
+
+Run server with:   
 ```
 flask run  
 ```  
-Access the application's functionalities via the API, documentation available here: https://documenter.getpostman.com/view/32395700/2sA3drGtvT
-ATTENTION: By default the application don't have any trained model. In order to get diamond prediction train a model by following instruction in the next section.  
+Access the application's functionalities via the API, documentation available here: https://documenter.getpostman.com/view/32395700/2sA3drGtvT.
 
 ### Train a new model
 To train a new model with the given dataset execute 
