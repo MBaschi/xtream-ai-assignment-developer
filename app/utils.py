@@ -35,13 +35,19 @@ def get_model_pickle_path(model_name, model_version=None):
         )
     pickle_path = cursor.fetchone()
     conn.close()
+    if not pickle_path:
+        return None
     return pickle_path[0]
 
 
 def load_model(model_path: str):
     """Load the model from the given path."""
-    with open(model_path, "rb") as file:
-        model = cloudpickle.load(file)
+    try:
+        with open(model_path, "rb") as file:
+            model = cloudpickle.load(file)
+    except FileNotFoundError:
+        return None
+    
     return model
 
 

@@ -86,11 +86,12 @@ def predict_diamond_price():
     if not valid_input:
         return jsonify({"error": message}), 400
 
-    try:
-        path = get_model_pickle_path(model_name, model_version)
-        model = load_model(path)
-    except Exception as e:
-        return jsonify({"error": f"Model not found: {e}"}), 404
+
+    path = get_model_pickle_path(model_name, model_version)
+    if path is None:
+        return jsonify({"error": "Model not found. Read the documentation to train a new model or check model name and version"}), 404
+    model = load_model(path)
+
 
     input_data = pd.DataFrame(input_data)
     prediction = model.execution_pipeline(input_data)
