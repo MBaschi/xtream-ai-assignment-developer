@@ -226,5 +226,15 @@ docker run -it --name container_name image_name /bin/bash # to run a container f
 ```   
 
 # Version 4.1.0 (check api request)
-I will add control to api request so that thei are correctlly recieved
+I plan to implement validation for API requests to ensure they are received correctly.  
+I also added some TEST api to the documentation.
+
+# Version 4.1.2
+This is the version i was able to achieve in the given time.
+Retrospective:  
+- The palling was good: all requests where completed in the given time.  
+- I didn't had time to write unit tests and i would have liked to implemente a bit less and test more.  
+- Using Flask maybe was a mistake: i should have used django that i'm more familiar with, but in the end the app is working and i introduced a new library.  
+- Docker was a failure but no regrets it was worth the try, with a bit more time (maybe some days) i could have done it.  
+
 

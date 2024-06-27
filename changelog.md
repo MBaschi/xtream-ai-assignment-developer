@@ -37,3 +37,9 @@
 
 ## Fix
 - Small adjustment to README
+
+## 4.1.2
+
+## Fix
+- Small adjustment to README.
+- Added control for missing model in the request.
